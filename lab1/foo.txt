@@ -1,4 +1,4 @@
 
 Welcome to ECE 120!
 
-Remove last line.
+
