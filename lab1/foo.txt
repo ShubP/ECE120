@@ -1,5 +1,3 @@
 
 Welcome to ECE 120!
 
-This is a change.
-
