@@ -1,9 +1,9 @@
 QUESTION 1.  Read through the program lab9.bin. What do you expect the program to do? More specifically, which register will the program modify when it is run, and what will it contain when the program finishes? (You can probably figure this out merely by reading the comments provided in lab9.bin.)
 
-ANSWER: 
+ANSWER: The program that is stored in the memory location x3000 will first clear R2 and then add 12 to it. The result of this is stored in R2 itself. Then the program halts using a TRAP instruction.
 
 
 QUESTION 2.  Explain in a few sentences why the ability to step through a program (run one instruction at a time) is a very useful tool for debugging a program. Debugging is the process of finding and correcting bugs (or errors) in a program. Hint: Finding a bug is often much more difficult than correcting it.
 
-ANSWER: 
+ANSWER: This way, we are able to find the specific error-causing instruction in the LC-3 program which would be difficult to find if we simply continue through and receive an error. We are also able to see the changes to different registers for each instruction this way. However, this may be difficult to do for a larger program with several more instructions.
 
