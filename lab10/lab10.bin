@@ -4,5 +4,41 @@
 
 0011 0001 0000 0000 ; x3100 - starting address of the program
 
-; The program description and code starts here
+
+;Shub Pereira
+;University of Illinois at Urbana-Champaign
+;November 8, 2022
+;lab10.bin: Computes the sum of all positive numbers in a given array stored in memory.
+;Fetches initial address / location of array[0]
+;Checks if number is positive or negative. 
+;If positive, adds the number to the sum. If negative, moves to next element in array.
+;Program ends after checking every element in the array given.
+
+;R2 acts as a counter for the number of elements that still need to be checked in the array.
+;R3 holds the address of the number being evaluated in the current loop cycle
+;R4 holds the value specified by the address given by R3
+;R5 holds the sum of all positive numbers that have been computed.
+
+0101 011 011 1 00000 ; clears R3 by ANDing it with x00000, PC = x3100
+1110 011 000110000   ; loads R3 with the starting address for the elements (R3 = x3132)
+0101 101 101 1 00000 ; clears R5 by ANDing it with x00000
+0101 010 010 1 00000 ; clears R2 by ANDing it with x00000
+0001 010 010 1 01010 ; adds 10 to R2 which is the counter for the array elements, PC = x3104
+0110 100 011 000000  ; loads R4 with value set in memory location given by R3
+0000 100 000000001   ; checks if element is positive or negative(value of R4),if R4
+                     ; is negative it branches out to the next element code at PC = x3108.
+0001 101 101 0 00 100; adds R4 to R5 since R4 is positive 
+0001 011 011 1 00001 ; increments R3 by 1 for next element address
+0001 010 010 1 11111 ; decrements counter(R2) by 1 every time an element is checked
+0000 001 111111010   ; checks if counter(R2) is positive and then loops
+1111 0000 00100101   ; ends the program if the previous loop condition is not met
+
+
+
+
+
+
+
+
+
 
