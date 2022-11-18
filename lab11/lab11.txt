@@ -1,9 +1,23 @@
 Question 1: Describe the errors that occur when trying to assemble lab11.asm. Identify the cause of each error.
 
+(LINE 14 and 16)-The first error(14) is that illegal operands for missing opcode which is due to the x3000 operands being present without the .ORIG opcode. As a result, there is also an error(16) for not having .ORIG as the first instruction in the program. We simply fix this by writing .ORIG x3000 as the first line of code.
+(LINE 17 and 30)-Then, we have 2 constant outside of allowed range error(17,30) which occurs due to incorrect value as part of the LOAD instruction. Replacing this with the correct address given by the LABEL called INPUT and CLEAR fixes the error.
+(LINE 19)-There is a illegal operands for ADD error since we have two commas as part of the instruction. This is fixed by simply removing a duplicate. 
+(LINE 32)-An error is shown for having label OUTERLOOP which has already appeared in the program, however the error is not caused by the label but by the BR instead. We need to replace BRpz by BRzp as the correct format. This fixes the error.
+(LINE 41)-Lastly, there is no .END directive found which is required as the last line of the program. This is fixed by adding it at the end of the asm file. 
 
+There is an additonal error discovered by the second pass:
+(LINE 35)- An error of unknown label "xxxx" is given due to incorrect STI format and leads to an unknown address for the assembler. This is fixed by providing the LABEL called RESULT which contains the location store  
 
 Question 2: For each label in the code, write down the corresponding memory location. 
 
-
+OUTERLOOP-x3005
+INNERLOOP-x3006
+INPUT-x300F
+CLEAR-x3010
+NEG1-x3011
+RESULT-x3012
 
 Question 3: Between using labels and explicit memory locations/offsets, which one makes the most sense, and why?
+
+Use of labels makes more sense since it avoid errors in pointing a memory address. Since there is no calculation with an incremented PC and the corresponding offset, we are sure to correctly point to a memory given by the label. We are also able to avoid the calculation of the offset/location as well which can cause errors in the desired execution of the program. Lastly, with labels we don't have to worry about adding/deleting lines in the program, since that can affect offset calculations otherwise.
