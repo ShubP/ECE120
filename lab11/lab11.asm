@@ -38,5 +38,5 @@ INNERLOOP   ADD   R5,R5,R1            ; Increment sum
 INPUT      .FILL  x0005               ; Input for X!, in this case X = 5
 CLEAR      .FILL  x0000               ; Can be used to initialize registers to 0
 NEG1       .FILL  xFFFF               ; 2's complement of 1 (i.e. -1)
-RESULT     .FILL  x30FF               ; At program completion, the result is stored 					      ;	  here
+RESULT     .FILL  x30FF               ; At program completion, the result is stored here
 	   .END
