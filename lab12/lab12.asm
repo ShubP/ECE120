@@ -1,8 +1,55 @@
-; The table below represents an 8x16 font.  For each 8-bit extended ASCII
-; character, the table uses 16 memory locations, each of which contains
-; 8 bits (the high 8 bits, for your convenience) marking pixels in the
-; line for that character.
+;Shub Pereira
+;University of Illinois at Urbana-Champaign
+;December 2, 2022
+;lab12.asm: Prints a given ASCII character to the monitor with a large font. Each program output is a 16 by 8 character output that has each value determined by the characters specified for zero-bit, one-bit and the large character to print itself. The approach used in this program is through Prof. Bhowmik's flowchart that has been designed for the purpose of this program.
+;
+; R0 is used as the register that contains the output value used by OUT statements
+; R1 is used for the ASCII value of character to be printed
+; R2 is used as a counter register for multiplication and rows
+; R3 is used to store the result of the multiplication and the starting row address
+; R4 is used as a counter register for columns
+; R5 is used for row address and contents of the row address.
+; R6 is used to load starting address for the ASCII characters to use for printing.
+; R7 is reserved for TRAP related use by lc3.
 
+	.ORIG	x3000
+	 LD	R6, FONT_LINE	; Loads the starting address 
+	 LDR	R1, R6, #2	; Loads the ASCII value of character
+	 AND	R2, R2, #0	; CLEAR R2
+	 ADD	R2, R2, #15	; Adds 15 to the multiplication counter register
+	 ADD	R2, R2, #1	; Adds 1 to the counter to total 16
+	 AND	R3, R3, #0	; CLEAR R3
+MULTI	 ADD	R3, R3, R1	; Adds R1 as part of loop that executes 16 times
+	 ADD	R2, R2, #-1	; Decrements the counter
+	 BRp	MULTI		; Loop for multiplication
+	 LEA	R2, FONT_DATA	; Loads the address of FONT_DATA 
+	 ADD	R3, R2, R3	; Loads starting row address for character
+	 AND	R2, R2, #0	; CLEAR R2
+	 ADD	R2, R2, #15	; Sets R2 as the row counter
+	 ADD	R2, R2, #1	; Sets R2 as the row counter = 16
+COLUMN	 AND	R4, R4, #0	; CLEAR R4
+	 ADD	R4, R4, #8	; Sets R4 as column counter = 8
+	 LDR 	R5, R3, #0	; Loads the content of starting row address
+NEXT_SR	 BRn	NEG		; Checks if the MSB of the row is 0 or 1
+         LDR	R0, R6, #0	; Loads the zero-bit symbol(x5000) if MSB=0
+	 OUT			
+	 BR	NEXT_COL	; Moves to the next column in same row.
+NEG	 LDR	R0, R6, #1	; Loads the one-bit symbol(x5001) if MSB=1
+	 OUT
+NEXT_COL ADD	R4, R4, #-1	; Decrements column counter
+	 BRz	NEXT_ROW	; Moves to the next row syntax if counter = 0
+	 ADD	R5, R5, R5	; Left shifts the contents of a row
+	 BR	NEXT_SR		; Moves to checking of the row content again
+NEXT_ROW LD	R0, NEXT_LINE	; Loads the next line character x0A
+	 OUT
+	 ADD	R3, R3, #1	; Increments row address by 1 for next row
+	 ADD	R2, R2, #-1	; Decrements row counter
+	 BRp	COLUMN		; Moves to next row if counter positive
+	 TRAP	x25		; Halts the program
+FONT_LINE
+	.FILL x5000
+NEXT_LINE
+	.FILL	x0A
 FONT_DATA
 	.FILL	x0000
 	.FILL	x0000
@@ -4100,3 +4147,5 @@ FONT_DATA
 	.FILL	x0000
 	.FILL	x0000
 	.FILL	x0000
+	
+	.END
