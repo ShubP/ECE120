@@ -1,4 +1,4 @@
-# ECE 120 (fa22) repo for NetID: shubbp2
+# ECE 120 (fa22) repo
 
 GitHub username at initialization time: ShubP
 
